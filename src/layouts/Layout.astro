@@ -1,0 +1,53 @@
+---
+import type { ImageMetadata } from "astro";
+
+type Image = string | ImageMetadata;
+
+interface Props {
+  title: string;
+  description: string;
+  image?: Image | undefined;
+}
+
+const { title, description, image } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+function normalizeImageUrl(image: string | ImageMetadata): string {
+  const src = typeof image === "string" ? image : image.src;
+  return new URL(src, Astro.site).toString();
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+
+    <meta name="color-scheme" content="dark light" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="description" content={description} />
+    <!-- Twitter meta tags removed to see the affect
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@astrodotbuild" />
+    <meta name="twitter:creator" content="@astrodotbuild" />
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={normalizeImageUrl(image)} />}
+  </head>
+  <body>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
