@@ -36,9 +36,9 @@ function normalizeImageUrl(image: string | ImageMetadata): string {
     <meta name="description" content={description} />
     <meta property="og:site_name" content="minimal" />
     <meta property="og:type" content="website" />
-    <!-- <meta property="og:url" content={canonicalURL} />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} /> -->
+    <meta property="og:description" content={description} />
     {image && <meta property="og:image" content={normalizeImageUrl(image)} />}
   </head>
   <body>
